@@ -8,7 +8,6 @@ import memoriesLogo from '../../images/memoriesLogo.png';
 import memoriesText from '../../images/memoriesText.png';
 import * as actionType from '../../constants/actionTypes';
 import useStyles from './styles';
-// import {  useNavigate} from 'react-router';
 
 const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
@@ -16,12 +15,6 @@ const Navbar = () => {
   const location = useLocation();
   const history = useHistory();
   const classes = useStyles();
-  // const navigate = useNavigate();
-
-  // const redirect = ()=>{
-  //   navigate('/auth');
-  // }
-
   const logout = () => {
     dispatch({ type: actionType.LOGOUT });
 

@@ -7,30 +7,24 @@ import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
-
 import { likePost, deletePost } from '../../../actions/posts';
 import useStyles from './styles';
-
 const Post = ({ post, setCurrentId }) => {
   const user = JSON.parse(localStorage.getItem('profile'));
   const [likes, setLikes] = useState(post?.likes);
   const dispatch = useDispatch();
   const history = useHistory();
   const classes = useStyles();
-
   const userId = user?.result.googleId || user?.result?._id;
   const hasLikedPost = post?.likes?.find((like) => like === userId);
-
   const handleLike = async () => {
     dispatch(likePost(post._id));
-
     if (hasLikedPost) {
       setLikes(post.likes.filter((id) => id !== userId));
     } else {
       setLikes([...post.likes, userId]);
     }
   };
-
   const Likes = () => {
     if (likes.length > 0) {
       return likes.find((like) => like === userId)
@@ -40,16 +34,12 @@ const Post = ({ post, setCurrentId }) => {
           <><ThumbUpAltOutlined fontSize="small" />&nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}</>
         );
     }
-
     return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
   };
 
   const openPost = (e) => {
-    // dispatch(getPost(post._id, history));
-
     history.push(`/posts/${post._id}`);
   };
-
   return (
     <Card className={classes.card} raised elevation={6}>
       <ButtonBase

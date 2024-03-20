@@ -4,10 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import FileBase from 'react-file-base64';
 import { useHistory } from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input';
-
 import { createPost, updatePost } from '../../actions/posts';
 import useStyles from './styles';
-
 const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({ title: '', message: '', tags: [], selectedFile: '' });
   const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));
@@ -15,20 +13,16 @@ const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem('profile'));
   const history = useHistory();
-
   const clear = () => {
     setCurrentId(0);
     setPostData({ title: '', message: '', tags: [], selectedFile: '' });
   };
-
   useEffect(() => {
     if (!post?.title) clear();
     if (post) setPostData(post);
   }, [post]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (currentId === 0) {
       dispatch(createPost({ ...postData, name: user?.result?.name }, history));
       clear();
@@ -37,7 +31,6 @@ const Form = ({ currentId, setCurrentId }) => {
       clear();
     }
   };
-
   if (!user?.result?.name) {
     return (
       <Paper className={classes.paper} elevation={6}>
@@ -47,15 +40,12 @@ const Form = ({ currentId, setCurrentId }) => {
       </Paper>
     );
   }
-
   const handleAddChip = (tag) => {
     setPostData({ ...postData, tags: [...postData.tags, tag] });
   };
-
   const handleDeleteChip = (chipToDelete) => {
     setPostData({ ...postData, tags: postData.tags.filter((tag) => tag !== chipToDelete) });
   };
-
   return (
     <Paper className={classes.paper} elevation={6}>
       <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
@@ -80,5 +70,4 @@ const Form = ({ currentId, setCurrentId }) => {
     </Paper>
   );
 };
-
 export default Form;
